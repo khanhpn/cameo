@@ -6,10 +6,16 @@
           <th>Id</th>
           <th>_id</th>
           <th>name</th>
-          <th>username</th>
+          <th>
+            <%= select_tag :numOfRatings, options_for_select([
+              {name: "DESC", id: "001"}, {name: "ASC", id: "002"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "numOfRatings" %>
+          </th>
           <th>Image</th>
           <th>Category</th>
-          <th>Created at</th>
+          <th>
+            <%= select_tag :created_at, options_for_select([
+              {name: "DESC", id: "001"}, {name: "ASC", id: "002"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "Created at" %>
+          </th>
         </tr>
         </thead>
         <tbody>
@@ -18,7 +24,7 @@
               <td scope="row"><%= user.id %></td>
               <td><%= link_to user._id, user_detail_path(user._id) %></td>
               <td><%= user.name %></td>
-              <td><%= user.username %></td>
+              <td><%= user.numOfRatings %></td>
               <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
               <td><%= show_category(user.categories) %></td>
               <td><%= user.created_at %></td>
