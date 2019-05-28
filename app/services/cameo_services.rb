@@ -5,11 +5,14 @@ class CameoServices
   end
 
   def execute
+    @logger.debug("#{Time.zone.now} start crawl data")
     Category.all.each do |category|
+      @logger.debug("#{Time.zone.now} starting crawl category #{@base_url}#{category.name}")
       response = HTTParty.get("#{@base_url}#{category.name}", format: :plain)
       data = JSON.parse(response, symbolize_names: true)
       save_to_database(data, category)
     end
+    @logger.debug("#{Time.zone.now} finished crawl data")
   end
 
   private
@@ -18,9 +21,9 @@ class CameoServices
     return if !users.present? && users.size <= 0
     users.each do |user|
       begin
-        user = User.find_by(_id: user.dig(:_id))
-        next if user.present?
-        Category.find_by(name: category.name).users.create({
+        exist_user = User.find_by(_id: user.dig(:_id))
+        next if exist_user.present?
+        new_user = User.create({
           _id: user.dig(:_id),
           name: user.dig(:name),
           username: user.dig(:username),
@@ -37,9 +40,22 @@ class CameoServices
           profession: user.dig(:profession),
           bio: user.dig(:bio)
         })
+        save_category(new_user, user)
       rescue Exception => e
         @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace}")
       end
+    end
+  end
+
+  def save_category(new_user, user)
+    begin
+      slugs = user.dig(:categories).map {|item| item.dig(:slug).squish}
+      return if !slugs.present?
+      Category.where(name: slugs).each do |cat|
+        cat.tallent_categories.create(user_id: new_user.id)
+      end
+    rescue Exception => e
+      @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace}")
     end
   end
 end

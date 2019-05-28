@@ -7,6 +7,7 @@
           <th>_id</th>
           <th>name</th>
           <th>username</th>
+          <th>Image</th>
           <th>Category</th>
           <th>Created at</th>
         </tr>
@@ -15,10 +16,11 @@
           <% @users.each do |user| %>
             <tr>
               <td scope="row"><%= user.id %></td>
-              <td><%= user._id %></td>
+              <td><%= link_to user._id, user_detail_path(user._id) %></td>
               <td><%= user.name %></td>
-              <td><%= user.usename %></td>
-              <td><%= user.category.name %></td>
+              <td><%= user.username %></td>
+              <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
+              <td><%= show_category(user.categories) %></td>
               <td><%= user.created_at %></td>
             </tr>
           <% end %>
