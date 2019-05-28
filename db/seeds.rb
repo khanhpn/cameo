@@ -5,3 +5,19 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+[
+  "actors", "broadway", "comedians", "comic-con",
+  "disney", "game-of-thrones", "harry-potter",
+  "lord-of-the-rings", "models", "mtv", "musicians",
+  "netflix", "reality", "star-wars", "twilight",
+  "video-games", "voice-actors", "animals",
+  "athletes", "drag-queens", "en-espanol",
+  "family", "fashion", "featured", "for-charity",
+  "influencers", "media", "new", "politics",
+  "realhousewives", "television", "wrestlers", "youtubers"
+].each do |category|
+  cat = Category.find_by(name: category)
+  next if cat.present?
+  Category.create({name: category})
+end
