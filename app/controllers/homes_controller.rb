@@ -1,14 +1,31 @@
 class HomesController < ApplicationController
   before_action :set_user, only: [:user_detail]
+  before_action :check_crawl, only: [:crawl, :execute_crawl]
 
   def index
     @pagy, @users = pagy(User.all.includes(:categories))
   end
 
-  def crawl; end
+  def crawl
+    @status = @status.present? ? @status : StatusCrawl.create({current_status: "new"})
+  end
 
   def execute_crawl
-    CameoJobJob.perform_later
+    if @status.current_status == "running"
+      redirect_to crawl_path, notice: "There is a crawl running, please waiting for a moment"
+    else
+      CameoJobJob.perform_later
+      @status.update({current_status: "running"})
+
+      respond_to do |format|
+        format.js
+      end
+    end
+  end
+
+  def category_detail
+    @category = Category.find_by(id: params[:id])
+    @pagy, @users = pagy(@category.users)
   end
 
   def user_detail; end
@@ -18,11 +35,15 @@ class HomesController < ApplicationController
   end
 
   def category
-    @pagy, @categories = pagy(Category.all)
+    @pagy, @categories = pagy(Category.all.includes(:users))
   end
 
   private
   def set_user
     @user = User.find_by(_id: params["id"])
+  end
+
+  def check_crawl
+    @status = StatusCrawl.last
   end
 end

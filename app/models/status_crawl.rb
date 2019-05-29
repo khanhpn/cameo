@@ -1,0 +1,2 @@
+class StatusCrawl < ApplicationRecord
+end

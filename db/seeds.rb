@@ -9,7 +9,7 @@ Category.delete_all
 User.delete_all
 TallentCategory.delete_all
 
-["categories", "users", "talent_categories"].each do |table_name|
+["categories", "users", "tallent_categories"].each do |table_name|
   ActiveRecord::Base.connection.execute("TRUNCATE #{table_name} RESTART IDENTITY")
 end
 
