@@ -5,9 +5,10 @@ class HomesController < ApplicationController
     @pagy, @users = pagy(User.all.includes(:categories))
   end
 
-  def crawl
-    cameo = CameoServices.new
-    cameo.execute
+  def crawl; end
+
+  def execute_crawl
+    CameoJobJob.perform_later
   end
 
   def user_detail; end
