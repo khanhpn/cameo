@@ -1,24 +1,16 @@
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Guide
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version: 2.6.3
 
-* System dependencies
+* Rails version: 5.2.3
 
-* Configuration
+* Database: Postgresql
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
+* Services (sidekiq)
 
 * Deployment instructions
 
-* ...
+  + Run sidekiq `bundle exec sidekiq`
+  + Start rails server `rails server`
