@@ -11,6 +11,6 @@ Things you may want to cover:
 * Services (sidekiq)
 
 * Deployment instructions
-
+  + Install dependency `npm install`
   + Run sidekiq `bundle exec sidekiq`
   + Start rails server `rails server`
