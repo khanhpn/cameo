@@ -15,8 +15,9 @@ Things you may want to cover:
   + Run `rails db:create`
   + Run `rails db:migrate`
   + run `rails db:seed`
-  + Run delayed_job `
-  RAILS_ENV=production script/delayed_job start
-  RAILS_ENV=production script/delayed_job stop
-  `
+  + Run delayed_job
+    + `RAILS_ENV=production script/delayed_job start`
+  
+    + `RAILS_ENV=production script/delayed_job stop`
+  
   + Start rails server `rails server`
