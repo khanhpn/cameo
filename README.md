@@ -8,9 +8,16 @@ Things you may want to cover:
 
 * Database: Postgresql
 
-* Services (sidekiq)
+* Services (delayed_job)
 
 * Deployment instructions
   + Install dependency `npm install`
-  + Run sidekiq `bundle exec sidekiq`
+  + Run `rails db:create`
+  + Run `rails db:migrate`
+  + run `rails db:seed`
+  + Run delayed_job
+    + `RAILS_ENV=production script/delayed_job start`
+  
+    + `RAILS_ENV=production script/delayed_job stop`
+  
   + Start rails server `rails server`

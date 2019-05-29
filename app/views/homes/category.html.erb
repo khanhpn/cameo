@@ -5,14 +5,16 @@
         <tr>
           <th>Id</th>
           <th>Name</th>
+          <th>Number of persons</th>
           <th>Created at</th>
         </tr>
         </thead>
         <tbody>
           <% @categories.each do |category| %>
             <tr>
-              <td scope="row"><%= category.id %></td>
+              <td scope="row"><%= link_to category.id, category_detail_path(category) %></td>
               <td><%= category.name %></td>
+              <td><%= category.users&.size %></td>
               <td><%= category.created_at %></td>
             </tr>
           <% end %>
