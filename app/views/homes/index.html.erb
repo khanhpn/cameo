@@ -5,16 +5,17 @@
         <tr>
           <th>Id</th>
           <th>_id</th>
-          <th>name</th>
+          <th><%= select_tag :name, options_for_select([
+              {name: "DESC", id: "001"}, {name: "asc", id: "desc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "Name" %></th>
           <th>
             <%= select_tag :numOfRatings, options_for_select([
-              {name: "DESC", id: "001"}, {name: "ASC", id: "002"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "numOfRatings" %>
+              {name: "DESC", id: "001"}, {name: "asc", id: "desc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "numOfRatings" %>
           </th>
           <th>Image</th>
           <th>Category</th>
           <th>
             <%= select_tag :created_at, options_for_select([
-              {name: "DESC", id: "001"}, {name: "ASC", id: "002"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "Created at" %>
+              {name: "DESC", id: "desc"}, {name: "ASC", id: "asc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "Created at", data: {remote: true } %>
           </th>
         </tr>
         </thead>
