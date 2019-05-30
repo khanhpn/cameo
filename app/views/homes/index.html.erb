@@ -3,7 +3,6 @@
     <table class="table table-bordered">
       <thead class="thead-inverse">
         <tr>
-          <th>Id</th>
           <th>_id</th>
           <th><%= select_tag :name, options_for_select([
               {name: "DESC", id: "001"}, {name: "asc", id: "desc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "Name" %></th>
@@ -22,7 +21,6 @@
         <tbody>
           <% @users.each do |user| %>
             <tr>
-              <td scope="row"><%= user.id %></td>
               <td><%= link_to user._id, user_detail_path(user._id) %></td>
               <td><%= user.name %></td>
               <td><%= user.numOfRatings %></td>
