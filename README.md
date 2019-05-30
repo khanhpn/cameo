@@ -23,6 +23,6 @@ Things you may want to cover:
     + database information
     + basic authentication
     + How to change:
-      + Copy file `master.key` and put it in: `config` folder
+      + Copy file from `master.key.sample` to `master.key` and this file was put in: `config` folder
       + Using this syntax for edit: `EDITOR=vim bin/rails credentials:edit`
   + Start rails server `rails server`
