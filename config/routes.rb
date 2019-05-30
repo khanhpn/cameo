@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   get 'back', to: 'homes#back', as: 'back'
   post 'execute_crawl', to: 'homes#execute_crawl', as: 'execute_crawl'
   get 'category_detail/:id', to: 'homes#category_detail', as: 'category_detail'
+  post 'export_xlsx', to: 'export_data#execute', as: 'export_xlsx'
+  get 'export_data', to: 'export_data#index', as: 'export_data'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

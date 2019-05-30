@@ -54,6 +54,8 @@ gem 'httparty'
 gem 'pagy'
 gem "daemons"
 gem 'delayed_job_active_record'
+gem 'zip-zip'
+gem 'axlsx'
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
