@@ -22,29 +22,51 @@ class CameoServices
     users.each do |user|
       begin
         exist_user = User.find_by(_id: user.dig(:_id))
-        next if exist_user.present?
-        new_user = User.create({
-          _id: user.dig(:_id),
-          name: user.dig(:name),
-          username: user.dig(:username),
-          engagement_speed: user.dig(:engagement, :speed),
-          engagement_volume: user.dig(:engagement, :volume),
-          engagement_score: user.dig(:engagement, :score),
-          firstOrderCompletedAt: user.dig(:firstOrderCompletedAt),
-          averageMillisecondsToComplete: user.dig(:averageMillisecondsToComplete),
-          imageUrl: user.dig(:imageUrl),
-          imageUrlKey: user.dig(:imageUrlKey),
-          numOfRatings: user.dig(:numOfRatings),
-          averageRating: user.dig(:averageRating),
-          price: user.dig(:price),
-          profession: user.dig(:profession),
-          bio: user.dig(:bio)
-        })
-        save_category(new_user, user)
+        exist_user.present? ? update_user(exist_user, user)  : create_user(user)
       rescue Exception => e
         @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace}")
       end
     end
+  end
+
+  def update_user(exist_user, user)
+    exist_user.update({
+      name: user.dig(:name),
+      username: user.dig(:username),
+      engagement_speed: user.dig(:engagement, :speed),
+      engagement_volume: user.dig(:engagement, :volume),
+      engagement_score: user.dig(:engagement, :score),
+      firstOrderCompletedAt: user.dig(:firstOrderCompletedAt),
+      averageMillisecondsToComplete: user.dig(:averageMillisecondsToComplete),
+      imageUrl: user.dig(:imageUrl),
+      imageUrlKey: user.dig(:imageUrlKey),
+      numOfRatings: user.dig(:numOfRatings),
+      averageRating: user.dig(:averageRating),
+      price: user.dig(:price),
+      profession: user.dig(:profession),
+      bio: user.dig(:bio)
+    })
+  end
+
+  def create_user(user)
+    new_user = User.create({
+      _id: user.dig(:_id),
+      name: user.dig(:name),
+      username: user.dig(:username),
+      engagement_speed: user.dig(:engagement, :speed),
+      engagement_volume: user.dig(:engagement, :volume),
+      engagement_score: user.dig(:engagement, :score),
+      firstOrderCompletedAt: user.dig(:firstOrderCompletedAt),
+      averageMillisecondsToComplete: user.dig(:averageMillisecondsToComplete),
+      imageUrl: user.dig(:imageUrl),
+      imageUrlKey: user.dig(:imageUrlKey),
+      numOfRatings: user.dig(:numOfRatings),
+      averageRating: user.dig(:averageRating),
+      price: user.dig(:price),
+      profession: user.dig(:profession),
+      bio: user.dig(:bio)
+    })
+    save_category(new_user, user)
   end
 
   def save_category(new_user, user)
