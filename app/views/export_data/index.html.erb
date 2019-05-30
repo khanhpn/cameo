@@ -1,21 +1,26 @@
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
+    <% if flash["notice"] %>
+      <div class="alert alert-danger">
+        <strong>Danger!</strong> <%= flash["notice"] %>
+      </div>
+    <% end %>
     <h1 class="display-3 text-center">Start export excel</h1>
     <p class="lead">
-      <%= form_with url: export_xlsx_path, class: "text-center" do |form| %>
+      <%= form_with url: export_xlsx_path, class: "text-center", method: :get, local: true do |form| %>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-1 col-form-label">Name:</label>
-          <div class="col-sm-11">
+          <label class="col-sm-2 col-form-label">File Name:</label>
+          <div class="col-sm-10">
             <%= form.text_field :name_file, class: "form-control" %>
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-1 col-form-label">Sheet:</label>
-          <div class="col-sm-11">
+          <label class="col-sm-2 col-form-label">Sheet Name:</label>
+          <div class="col-sm-10">
             <%= form.text_field :name_sheet, class: "form-control" %>
           </div>
         </div>
-        <%= form.submit "Export", class: "btn btn-primary btn-lg" %>
+        <%= form.submit "Export", class: "btn btn-primary btn-lg", data: { disable_with: false } %>
       <% end %>
     </p>
   </div>

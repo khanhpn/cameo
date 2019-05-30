@@ -24,7 +24,9 @@ class CameoAxlsx
 
   private
   def export_excel
-    @axls.serialize("#{Rails.root}/public/#{@name}.xlsx")
+    FileUtils.remove_dir("public/excel") if Dir.exist?('public/excel')
+    Dir.mkdir('public/excel')
+    @axls.serialize("#{Rails.root}/public/excel/#{@name}.xlsx")
   end
 
   def header
