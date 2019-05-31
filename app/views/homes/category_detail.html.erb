@@ -13,10 +13,6 @@
           </th>
           <th>Image</th>
           <th>Category</th>
-          <th>
-            <%= select_tag :created_at, options_for_select([
-              {name: "DESC", id: "desc"}, {name: "ASC", id: "asc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "Created at", data: {remote: true } %>
-          </th>
         </tr>
         </thead>
         <tbody>
@@ -28,7 +24,6 @@
               <td><%= user.numOfRatings %></td>
               <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
               <td><%= show_category(user.categories) %></td>
-              <td><%= user.created_at %></td>
             </tr>
           <% end %>
         </tbody>

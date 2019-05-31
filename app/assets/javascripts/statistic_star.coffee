@@ -1,3 +1,13 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+$ ->
+  $('#id_date_range').daterangepicker
+    "autoApply": true,
+    timePicker: true,
+    startDate: moment().startOf('hour'),
+    endDate: moment().startOf('hour').add(32, 'hour'),
+    locale:
+      format: 'MM/DD/YYYY hh:mm A',
+    showDropdowns: true,
+    maxYear: moment().year(),
+    maxDate: moment().date(),
+    showWeekNumbers: true,
+    opens: 'center'

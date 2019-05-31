@@ -11,6 +11,8 @@
 // about supported directives.
 //
 //= require jquery
+//= require moment/moment
+//= require daterangepicker/daterangepicker
 //= require rails-ujs
 //= require bootstrap/dist/js/bootstrap.min
 //= require activestorage
