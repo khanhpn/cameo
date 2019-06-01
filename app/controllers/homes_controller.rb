@@ -3,7 +3,7 @@ class HomesController < ApplicationController
   before_action :check_crawl, only: [:crawl, :execute_crawl]
 
   def index
-    @pagy, @users = pagy(User.all.includes(:categories))
+    @pagy, @users = pagy(User.all.includes(:categories).search(set_params_sort))
   end
 
   def crawl
@@ -45,5 +45,10 @@ class HomesController < ApplicationController
 
   def check_crawl
     @status = StatusCrawl.last
+  end
+
+  def set_params_sort
+    params["created_at"] = "desc" if !params["name"].present? && !params["numOfRatings"].present?
+    params
   end
 end
