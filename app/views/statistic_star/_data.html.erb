@@ -15,8 +15,7 @@
           <td><%= category.name %></td>
           <td><%= category.users.size %></td>
           <td>
-            <%= category.user_ids %>
-            <%= category.users.pluck(:created_at) %>
+            <%= category.users.pluck(:id, :created_at).join("<br>").html_safe %>
           </td>
         </tr>
       <% end %>
