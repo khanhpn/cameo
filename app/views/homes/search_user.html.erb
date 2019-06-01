@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <table class="table table-bordered">
+      <thead class="thead-inverse">
+        <%= form_tag root_path, method: :get, id: "id_form_user" do %>
+        <tr>
+          <th>_id</th>
+          <th><%= select_tag :name, options_for_select([
+              {name: "DESC", id: "desc"}, {name: "ASC", id: "asc"}].map { |obj| [obj[:name], obj[:id]] }, params["name"]), prompt: "Name", id: "id_sort_name" %></th>
+          <th>
+            <%= select_tag :numOfRatings, options_for_select([
+              {name: "DESC", id: "desc"}, {name: "ASC", id: "asc"}].map { |obj| [obj[:name], obj[:id]] }, params["numOfRatings"]), prompt: "numOfRatings", id: "id_sort_rating" %>
+          </th>
+          <th>Image</th>
+          <th>Category</th>
+        </tr>
+        <% end %>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= link_to user._id, user_detail_path(user._id) %></td>
+              <td><%= user.name %></td>
+              <td><%= user.numOfRatings %></td>
+              <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
+              <td><%= show_category(user.categories) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 custom-pagy">
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+</div>

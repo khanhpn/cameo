@@ -3,11 +3,15 @@ class HomesController < ApplicationController
   before_action :check_crawl, only: [:crawl, :execute_crawl]
 
   def index
-    @pagy, @users = pagy(User.all.includes(:categories).search(set_params_sort))
+    @pagy, @users = pagy(User.all.includes(:categories).sort_user(set_params_sort))
   end
 
   def crawl
     @status = @status.present? ? @status : StatusCrawl.create({current_status: "new"})
+  end
+
+  def search_user
+    @pagy, @users = pagy(User.all.includes(:categories).search(params))
   end
 
   def execute_crawl
