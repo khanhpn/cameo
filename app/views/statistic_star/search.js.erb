@@ -1,0 +1,2 @@
+$("#id_statistic_stars").html('');
+$("#id_statistic_stars").html('<%= j render(partial: "statistic_star/data", locals: {pagy: @pagy, categories: @categories, start_time: @start_time, end_time: @end_time}) %>');
