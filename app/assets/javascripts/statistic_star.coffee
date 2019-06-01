@@ -1,13 +1,11 @@
-$ ->
+$(document).on 'turbolinks:load', ->
   $('#id_date_range').daterangepicker
     "autoApply": true,
-    timePicker: true,
     startDate: moment().startOf('hour'),
-    endDate: moment().startOf('hour').add(32, 'hour'),
+    endDate: moment().startOf('hour').add(24, 'hour'),
     locale:
-      format: 'MM/DD/YYYY hh:mm A',
+      format: 'DD/MM/YYYY',
     showDropdowns: true,
     maxYear: moment().year(),
-    maxDate: moment().date(),
     showWeekNumbers: true,
     opens: 'center'

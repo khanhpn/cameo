@@ -1,6 +1,5 @@
 <div class="row statistic-bottom">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-    <form>
     <%= form_with url: statistic_search_path do |form| %>
       <div class="form-group">
         <label><h4>Choose datetime range</h4></label>
@@ -11,5 +10,5 @@
   </div>
 </div>
 <div id="id_statistic_stars" class="row">
-  <%= render partial: "statistic_star/data", locals: {pagy: @pagy, categories: @categories, current_week: @current_week, start_time: @start_time, end_time: @end_time} %>
+  <%= render partial: "statistic_star/data", locals: {pagy: @pagy, categories: @categories, start_time: @start_time, end_time: @end_time} %>
 </div>
