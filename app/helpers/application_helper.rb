@@ -2,6 +2,7 @@ module ApplicationHelper
   include Pagy::Frontend
 
   def datetime_range(start_week, end_week)
-    "#{start_week.strftime('%Y/%m/%d')} - #{end_week.strftime('%Y/%m/%d')}"
+    return if !start_week.present? || !end_week.present?
+    "#{start_week.strftime('%d/%m/%Y')} - #{end_week.strftime('%d/%m/%Y')}"
   end
 end

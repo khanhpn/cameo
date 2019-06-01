@@ -9,3 +9,7 @@ $(document).on 'turbolinks:load', ->
     maxYear: moment().year(),
     showWeekNumbers: true,
     opens: 'center'
+
+  range_date = $("#id_date_range").data("datetime").split(" - ");
+  $("#id_date_range").data('daterangepicker').setStartDate(moment(range_date[0], "DD/MM/YYYY"));
+  $("#id_date_range").data('daterangepicker').setEndDate(moment(range_date[1], "DD/MM/YYYY"));
