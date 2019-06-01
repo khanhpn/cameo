@@ -83,5 +83,6 @@ test:
 production:
   <<: *default
   database: cameo_production
+  host: scraping.ckcthrowaiar.us-east-1.rds.amazonaws.com
   username: postgres
   password: Cameo1!Cameo1!
