@@ -56,6 +56,16 @@ gem "daemons"
 gem 'delayed_job_active_record'
 gem 'zip-zip'
 gem 'axlsx'
+gem 'capistrano'
+gem 'capistrano3-puma'
+gem 'capistrano-rails', require: false
+gem 'capistrano-bundler', require: false
+gem 'capistrano-rvm'
+gem 'capistrano-logtail'
+gem 'capistrano-rails-console', require: false
+gem "capistrano-db-tasks", require: false
+gem 'capistrano-npm'
+
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
