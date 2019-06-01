@@ -14,18 +14,13 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-default: &default
+development:
   adapter: postgresql
   encoding: unicode
+  database: cameo_development
   username: <%= Rails.application.credentials.database[:username] %>
   password: <%= Rails.application.credentials.database[:password] %>
-  # For details on connection pooling, see Rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
-development:
-  <<: *default
-  database: cameo_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -58,7 +53,6 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
   database: cameo_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
@@ -81,7 +75,9 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
   database: cameo_production
+  host: scraping.ckcthrowaiar.us-east-1.rds.amazonaws.com
   username: postgres
   password: Cameo1!Cameo1!
