@@ -34,6 +34,9 @@ set :puma_preload_app, false
 set :logtail_files, %w( /var/log/syslog )
 set :logtail_lines, 100
 
+set :delayed_job_server_role, :worker
+set :delayed_job_args, "-n 2"
+
 #set :rollbar_token, ENV['ROLLBAR_SERVER_TOKEN']
 #set :rollbar_env, Proc.new { fetch :stage }
 #set :rollbar_role, Proc.new { :app }
@@ -55,6 +58,13 @@ set :pty, false
 #set :aws_launch_configuration_associate_public_ip, true
 
 after "deploy", "puma:start"
+
+after 'deploy:publishing', 'deploy:restart'
+namespace :deploy do
+  task :restart do
+    invoke 'delayed_job:restart'
+  end
+end
 
 #load 'lib/capistrano/tasks/seed.rb'
 namespace :db do
