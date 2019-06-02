@@ -9,12 +9,7 @@ $(document).on 'turbolinks:load', ->
     $("#id_sort_name").val("")
     handleSortRating(event)
 
-  $(document).on "click", "#id_submit_search", (event) ->
-    handleSearchUser(event)
-
   handleSortName = (e) ->
     $("form#id_form_user").submit()
   handleSortRating = (e) ->
     $("form#id_form_user").submit()
-  handleSearchUser = (e) ->
-    $("form#id_form_search").submit()
