@@ -1,6 +1,7 @@
 $(document).on 'turbolinks:load', ->
   $(document).on "change", "#id_sort_name", (event) ->
     $("#id_sort_name").val(event.target.value)
+    console.log(event.target.value)
     $("#id_sort_rating").val("")
     handleSortName(event)
 
@@ -11,6 +12,5 @@ $(document).on 'turbolinks:load', ->
 
   handleSortName = (e) ->
     $("form#id_form_user").submit()
-
   handleSortRating = (e) ->
     $("form#id_form_user").submit()
