@@ -5,7 +5,6 @@
         <th>Id</th>
         <th>Name</th>
         <th><%= datetime_range(start_time, end_time) %></th>
-        <th>User Ids</th>
       </tr>
     </thead>
     <tbody>
@@ -14,9 +13,6 @@
           <td scope="row"><%= link_to category.id, category_detail_path(category) %></td>
           <td><%= category.name %></td>
           <td><%= category.users.size %></td>
-          <td>
-            <%= category.users.pluck(:id, :created_at).join("<br>").html_safe %>
-          </td>
         </tr>
       <% end %>
     </tbody>
