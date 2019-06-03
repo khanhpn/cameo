@@ -4,25 +4,31 @@
     <table class="table table-bordered">
       <thead class="thead-inverse">
         <tr>
-          <th>_id</th>
           <th><%= select_tag :name, options_for_select([
               {name: "DESC", id: "desc"}, {name: "ASC", id: "asc"}].map { |obj| [obj[:name], obj[:id]] }, params["name"]), prompt: "Name", id: "id_sort_name" %></th>
+          <th>Price</th>
           <th>
             <%= select_tag :numOfRatings, options_for_select([
               {name: "DESC", id: "desc"}, {name: "ASC", id: "asc"}].map { |obj| [obj[:name], obj[:id]] }, params["numOfRatings"]), prompt: "numOfRatings", id: "id_sort_rating" %>
           </th>
           <th>Image</th>
+          <th>Profession</th>
           <th>Category</th>
+          <th>Details</th>
+          <th>Cameo</th>
         </tr>
         </thead>
         <tbody>
           <% @users.each do |user| %>
             <tr>
-              <td><%= link_to user._id, user_detail_path(user._id) %></td>
               <td><%= user.name %></td>
+              <td><%= "$ #{user.price / 100}" %></td>
               <td><%= user.numOfRatings %></td>
               <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
+              <td><%= user.profession %></td>
               <td><%= show_category(user.categories) %></td>
+              <td><%= link_to "View", user_detail_path(user._id) %></td>
+              <td><%= link_to "Link", "https://cameo.com/#{user.username}", target: "blank" %></td>
             </tr>
           <% end %>
         </tbody>
