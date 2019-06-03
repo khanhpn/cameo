@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'category', to: 'homes#category', as: 'category'
   get 'user_detail/:id', to: 'homes#user_detail', as: 'user_detail'
   get 'back', to: 'homes#back', as: 'back'
+  get "search_user", to: 'homes#search_user', as: 'search_user'
   post 'execute_crawl', to: 'homes#execute_crawl', as: 'execute_crawl'
   get 'category_detail/:id', to: 'homes#category_detail', as: 'category_detail'
   get 'export_xlsx', to: 'export_data#execute', as: 'export_xlsx'
