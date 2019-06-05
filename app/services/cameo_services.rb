@@ -43,6 +43,7 @@ class CameoServices
       numOfRatings: user.dig(:numOfRatings),
       averageRating: user.dig(:averageRating),
       price: user.dig(:price),
+      temporarilyUnavailable: user.dig(:temporarilyUnavailable),
       profession: user.dig(:profession),
       bio: user.dig(:bio)
     })
@@ -62,6 +63,7 @@ class CameoServices
       imageUrlKey: user.dig(:imageUrlKey),
       numOfRatings: user.dig(:numOfRatings),
       averageRating: user.dig(:averageRating),
+      temporarilyUnavailable: user.dig(:temporarilyUnavailable),
       price: user.dig(:price),
       profession: user.dig(:profession),
       bio: user.dig(:bio)

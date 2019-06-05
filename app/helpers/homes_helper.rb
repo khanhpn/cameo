@@ -6,4 +6,8 @@ module HomesHelper
       end
     end
   end
+
+  def temporarilyUnavailable?(data)
+    data ? "active" : "inactive"
+  end
 end

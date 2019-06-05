@@ -59,6 +59,10 @@
           <td><%= @user.profession %></td>
         </tr>
         <tr>
+          <th>temporarilyUnavailable</th>
+          <td><%= temporarilyUnavailable?(@user.temporarilyUnavailable) %></td>
+        </tr>
+        <tr>
           <th>bio</th>
           <td><%= @user.bio %></td>
         </tr>
