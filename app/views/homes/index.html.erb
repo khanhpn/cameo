@@ -14,6 +14,10 @@
           <th>Image</th>
           <th>Profession</th>
           <th>Category</th>
+          <th>
+            <%= select_tag :created_at, options_for_select([
+            {name: "DESC", id: "desc"}, {name: "ASC", id: "asc"}].map { |obj| [obj[:name], obj[:id]] }, params["created_at"]), prompt: "Created at", id: "id_created_at" %>
+          </th>
           <th>Details</th>
           <th>Cameo</th>
         </tr>
@@ -27,6 +31,7 @@
               <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
               <td><%= user.profession %></td>
               <td><%= show_category(user.categories) %></td>
+              <td><%= user.created_at.strftime("%d/%m/%Y") %></td>
               <td><%= link_to "View", user_detail_path(user._id) %></td>
               <td><%= link_to "Link", "https://cameo.com/#{user.username}", target: "blank" %></td>
             </tr>
