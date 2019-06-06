@@ -45,7 +45,8 @@ class CameoServices
       price: user.dig(:price),
       temporarilyUnavailable: user.dig(:temporarilyUnavailable),
       profession: user.dig(:profession),
-      bio: user.dig(:bio)
+      bio: user.dig(:bio),
+      type_web: "cameo"
     })
   end
 
@@ -66,7 +67,8 @@ class CameoServices
       temporarilyUnavailable: user.dig(:temporarilyUnavailable),
       price: user.dig(:price),
       profession: user.dig(:profession),
-      bio: user.dig(:bio)
+      bio: user.dig(:bio),
+      type_web: "cameo"
     })
     save_category(new_user, user)
   end

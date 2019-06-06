@@ -3,6 +3,9 @@
     <h1 class="display-3 text-center">Start crawl data</h1>
     <p class="lead">
       <%= form_with url: execute_crawl_path, class: "text-center" do |form| %>
+        <div class="wrap-select">
+          <%= form.select :type, options_for_select([ "cameo", "celebvm" ], params["type"]), {prompt: "Choose type"}, {class: "form-control width-select"} %>
+        </div>
         <%= form.submit "Start crawl", class: "btn btn-primary btn-lg", data: { disable_with: false } %>
       <% end %>
     </p>

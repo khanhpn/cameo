@@ -5,13 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Category.delete_all
-User.delete_all
-TallentCategory.delete_all
+# Category.delete_all
+# User.delete_all
+# TallentCategory.delete_all
 
-["categories", "users", "tallent_categories"].each do |table_name|
-  ActiveRecord::Base.connection.execute("TRUNCATE #{table_name} RESTART IDENTITY")
-end
+# ["categories", "users", "tallent_categories"].each do |table_name|
+#   ActiveRecord::Base.connection.execute("TRUNCATE #{table_name} RESTART IDENTITY")
+# end
 
 [
   "actors", "broadway", "comedians", "comic-con",
@@ -25,6 +25,6 @@ end
   "realhousewives", "television", "wrestlers", "youtubers"
 ].each do |category|
   cat = Category.find_by(name: category)
-  next if cat.present?
-  Category.create({name: category})
+  cat.update(type_web: "cameo") if cat.present?
+  Category.create({name: category, type_web: "cameo"})
 end

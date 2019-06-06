@@ -11,5 +11,8 @@ Rails.application.routes.draw do
   get 'export_data', to: 'export_data#index', as: 'export_data'
   get 'statistic', to: 'statistic_star#index', as: 'statistic'
   post 'statistic_search', to: 'statistic_star#search', as: 'statistic_search'
+  get 'celebvm', to: 'homes#celebvm', as: 'celebvm'
+  get 'category_celebvm', to: 'homes#category_celebvm', as: 'category_celebvm'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

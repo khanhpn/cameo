@@ -3,7 +3,11 @@ class HomesController < ApplicationController
   before_action :check_crawl, only: [:crawl, :execute_crawl]
 
   def index
-    @pagy, @users = pagy(User.sort_user(params))
+    @pagy, @users = pagy(User.sort_user(params).get_cameos)
+  end
+
+  def celebvm
+    @pagy, @users = pagy(User.sort_user(params).where(type_web: "celebvm"))
   end
 
   def crawl
@@ -14,7 +18,11 @@ class HomesController < ApplicationController
     if @status.current_status == "running"
       redirect_to crawl_path, notice: "There is a crawl running, please waiting for a moment"
     else
-      CameoJobJob.perform_later
+      if params["type"] == "cameo"
+        CameoJobJob.perform_later
+      else
+        CelebvmServices.new.execute
+      end
       @status.update({current_status: "running"})
 
       respond_to do |format|
@@ -35,7 +43,11 @@ class HomesController < ApplicationController
   end
 
   def category
-    @pagy, @categories = pagy(Category.all.includes(:users))
+    @pagy, @categories = pagy(Category.all.includes(:users).get_cameos)
+  end
+
+  def category_celebvm
+    @pagy, @categories = pagy(Category.all.includes(:users).get_celebvms)
   end
 
   private
