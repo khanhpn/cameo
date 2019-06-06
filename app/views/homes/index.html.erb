@@ -11,7 +11,7 @@
             <%= select_tag :numOfRatings, options_for_select([
               {name: "DESC", id: "desc"}, {name: "ASC", id: "asc"}].map { |obj| [obj[:name], obj[:id]] }, params["numOfRatings"]), prompt: "numOfRatings", id: "id_sort_rating" %>
           </th>
-          <th>temporarilyUnavailable</th>
+          <th>Status</th>
           <th>Image</th>
           <th>Profession</th>
           <th>Category</th>
@@ -29,7 +29,7 @@
               <td><%= user.name %></td>
               <td><%= "$ #{user.price / 100}" %></td>
               <td><%= user.numOfRatings %></td>
-              <td><%= temporarilyUnavailable?(user.temporarilyUnavailable) %></td>
+              <td><%= user.temporarilyUnavailable? ? "Inactive" : "Active" %></td>
               <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
               <td><%= user.profession %></td>
               <td><%= show_category(user.categories) %></td>
