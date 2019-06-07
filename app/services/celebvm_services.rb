@@ -4,7 +4,7 @@ require 'open-uri'
 class CelebvmServices
   def initialize
     @base_url = "https://celebvm.com"
-    @details = []
+    @logger = Logger.new("#{Rails.root}/log/celebvm_#{Time.zone.now}.log")
   end
 
   def execute
@@ -18,20 +18,24 @@ class CelebvmServices
     return unless raw_categories.present?
     raw_categories.each do |item|
       raw_item = item&.values.dig(0)
-      category = Category.get_celebvms.find_by(name: raw_item.split("cat=").last)
+      category = Category.get_celebvms.find_by(name: raw_item.split("cate=").last)
       next if category.present?
       puts raw_item
-      Category.create({type_web: "celebvm", name: raw_item.split("cat=").last})
+      Category.create({type_web: "celebvm", name: raw_item.split("cate=").last})
     end
   end
 
   private
   def get_links_detail
     Category.get_celebvms.each do |category|
-      doc = Nokogiri::HTML(open("#{@base_url}/#{category.name}"))
-      raw_links = doc.xpath("//div[@class='img-card text-left']/a[@href]")
-      next unless raw_links.present?
-      parse_links_detail(raw_links)
+      begin
+        doc = Nokogiri::HTML(open("#{@base_url}/#{category.name}"))
+        raw_links = doc.xpath("//div[@class='img-card text-left']/a[@href]")
+        next unless raw_links.present?
+        parse_links_detail(raw_links)
+      rescue Exception => e
+        @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace} #{category.name}")
+      end
     end
   end
 
@@ -39,71 +43,91 @@ class CelebvmServices
     raw_links.each do |detail|
       raw_link_detail = detail.values.dig(0)
       puts raw_link_detail
+      @logger.info("#{Time.zone.now} #{raw_link_detail}")
       parse_detail(raw_link_detail)
     end
   end
 
   def parse_detail(link)
     return unless link.present?
-    doc = Nokogiri::HTML(open("#{@base_url}/#{link}"))
-    binding.pry
-  end
-
-  def get_username
-
-  end
-
-  def get_image
-
-  end
-
-  def get_price
-
-  end
-
-  def get_categories
-
-  end
-
-  def save_to_database(data, category)
-    users = data[:users]
-    return if !users.present? && users.size <= 0
-    users.each do |user|
-      begin
-        exist_user = User.find_by(_id: user.dig(:_id))
-        exist_user.present? ? update_user(exist_user, user)  : create_user(user)
-      rescue Exception => e
-        @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace}")
-      end
+    begin
+      doc = Nokogiri::HTML(open("#{@base_url}/#{link}"))
+      username = get_name(link)
+      price = get_price(doc)
+      name = get_username(doc)
+      categories = get_categories_name(doc)
+      imageUrl = get_image(doc)
+      save_to_database({price: price, username: username, name: name, categories: categories, imageUrl: imageUrl, price: price})
+    rescue Exception => e
+      @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace}")
     end
   end
 
-  def update_user(exist_user, user)
-    exist_user.update({
-      name: user.dig(:name),
-      username: user.dig(:username),
-      imageUrl: user.dig(:imageUrl),
-      price: user.dig(:price),
-      type_web: "celebvm"
-    })
+  def get_name(link)
+    link.split("/").last
   end
 
-  def create_user(user)
-    new_user = User.create({
-      name: user.dig(:name),
-      username: user.dig(:username),
-      imageUrl: user.dig(:imageUrl),
-      price: user.dig(:price),
-      type_web: "celebvm"
-    })
-    save_category(new_user, user)
+  def get_username(doc)
+    raw_username = doc.xpath("//span[@class='tag d-inline-block']")
+    return if !raw_username.present?
+    raw_username&.first&.text&.squish
   end
 
-  def save_category(new_user, user)
+  def get_image(doc)
+    raw_img = doc.xpath("//img[@class='img-circle1 img-thumbnail img-fluid mr-2']")
+    return if !raw_img.present?
+    img = raw_img&.first&.attributes.dig("src")&.value
+    "#{@base_url}#{img}"
+  end
+
+  def get_price(doc)
+    raw_price = doc.xpath("//button[@class='btn btn-danger pr-sm-5']")
+    return unless raw_price.present?
+    raw_price&.first&.text&.split(" ")&.last&.gsub(/\£|\$/, "")&.to_i
+  end
+
+  def get_categories_name(doc)
+    raw_category = doc.xpath("//a[@class='btn btn-danger btn-round mr-2 mb-2']")
+    return if !raw_category.present?
+    raw_category.map(&:text).map(&:squish)
+  end
+
+  def save_to_database(args)
+    return if !args[:username].present?
     begin
-      slugs = user.dig(:categories).map {|item| item.dig(:slug).squish}
-      return if !slugs.present?
-      Category.where(name: slugs).each do |cat|
+      exist_user = User.find_by(username: args[:username])
+      exist_user.present? ? update_user(exist_user, args)  : create_user(args)
+    rescue Exception => e
+      @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace}")
+    end
+  end
+
+  def update_user(exist_user, args)
+    exist_user.update({
+      name: args[:name],
+      username: args[:username],
+      imageUrl: args[:imageUrl],
+      price: args[:price],
+      type_web: "celebvm"
+    })
+  end
+
+  def create_user(args)
+    new_user = User.create({
+      name: args[:username],
+      username: args[:username],
+      imageUrl: args[:imageUrl],
+      price: args[:price],
+      type_web: "celebvm"
+    })
+    save_category(new_user, args)
+  end
+
+  def save_category(new_user, args)
+    begin
+      categories = args[:categories].map(&:squish)
+      return if !categories.present?
+      Category.get_celebvms.where(name: categories).each do |cat|
         cat.tallent_categories.create(user_id: new_user.id)
       end
     rescue Exception => e

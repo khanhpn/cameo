@@ -17,8 +17,13 @@ class CameoServices
 
   private
   def save_to_database(data, category)
+    return if data[:status] === 404
     users = data[:users]
-    return if !users.present? && users.size <= 0
+    begin
+      return if !users.present? && users.try(:size) <= 0
+    rescue Exception => e
+      binding.pry
+    end
     users.each do |user|
       begin
         exist_user = User.find_by(_id: user.dig(:_id))

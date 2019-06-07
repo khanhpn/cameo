@@ -19,7 +19,8 @@ class HomesController < ApplicationController
       redirect_to crawl_path, notice: "There is a crawl running, please waiting for a moment"
     else
       if params["type"] == "cameo"
-        CameoJobJob.perform_later
+        # CameoJobJob.perform_later
+        CameoServices.new.execute
       else
         CelebvmServices.new.execute
       end
