@@ -83,7 +83,9 @@ class CelebvmServices
   def get_price(doc)
     raw_price = doc.xpath("//button[@class='btn btn-danger pr-sm-5']")
     return unless raw_price.present?
-    raw_price&.first&.text&.split(" ")&.last&.gsub(/\£|\$/, "")&.to_i
+    raw_price = raw_price&.first&.text&.split(" ")&.last
+    return raw_price&.gsub(/\£|\$/, "")&.to_i if raw_price.include?("$")
+    return raw_price&.gsub(/\£|\$/, "")&.to_i * 1.27 if raw_price.include?("£")
   end
 
   def get_categories_name(doc)
