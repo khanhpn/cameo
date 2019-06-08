@@ -15,7 +15,7 @@
             <tr>
               <td><%= link_to user.id, user_celebvm_detail_path(user.id) %></td>
               <td><%= user.name %></td>
-              <td><%= "£ #{user.price}" %></td>
+              <td><%= "$ #{user.price}" %></td>
               <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
               <td><%= show_category(user.categories) %></td>
             </tr>
