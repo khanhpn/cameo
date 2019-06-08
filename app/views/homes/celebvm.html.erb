@@ -29,7 +29,7 @@
           <% @users.each do |user| %>
             <tr>
               <td><%= user.name %></td>
-              <td><%= "$ #{user.price}" %></td>
+              <td><%= "£ #{user.price}" %></td>
               <td><%= image_tag user.imageUrl || "", class: "rounded-circle image" %></td>
               <td><%= show_category(user.categories) %></td>
               <td><%= user.created_at.strftime("%d/%m/%Y") %></td>

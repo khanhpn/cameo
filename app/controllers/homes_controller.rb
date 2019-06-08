@@ -43,7 +43,9 @@ class HomesController < ApplicationController
 
   def user_detail; end
 
-  def user_celebvm_detail; end
+  def user_celebvm_detail
+    @user = User.find_by(id: params["id"])
+  end
 
   def back
     redirect_back(fallback_location: root_path)

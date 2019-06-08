@@ -16,7 +16,7 @@
         </tr>
         <tr>
           <th>price</th>
-          <td><%= @user.price %></td>
+          <td>£ <%= @user.price %></td>
         </tr>
         <tr>
           <th>Category</th>
@@ -25,6 +25,10 @@
         <tr>
           <th>Created at</th>
           <td><%= @user.created_at %></td>
+        </tr>
+        <tr>
+          <th>Celebvm</th>
+          <td><%= link_to "Link", "https://celebvm.com/p/#{@user.username}", target: "blank" %></td>
         </tr>
       </tbody>
     </table>
