@@ -6,7 +6,7 @@ class CameoServices
 
   def execute
     @logger.debug("#{Time.zone.now} start crawl data")
-    Category.all.each do |category|
+    Category.get_cameos.all.each do |category|
       @logger.debug("#{Time.zone.now} starting crawl category #{@base_url}#{category.name}")
       response = HTTParty.get("#{@base_url}#{category.name}", format: :plain)
       data = JSON.parse(response, symbolize_names: true)
@@ -22,7 +22,6 @@ class CameoServices
     begin
       return if !users.present? && users.try(:size) <= 0
     rescue Exception => e
-      binding.pry
     end
     users.each do |user|
       begin
@@ -53,6 +52,7 @@ class CameoServices
       bio: user.dig(:bio),
       type_web: "cameo"
     })
+    update_category(exist_user, user)
   end
 
   def create_user(user)
@@ -78,11 +78,24 @@ class CameoServices
     save_category(new_user, user)
   end
 
+  def update_category(exist_user, user)
+    slugs = user.dig(:categories).map {|item| item.dig(:slug).squish}
+    categories = exist_user.categories
+    items = categories.reject{|item| slugs.include?(item.name)}
+    items.map(&:delete) if items.present?
+    slugs.each do |slug|
+      result = categories.find_by(name: slug)
+      next if result.present?
+      category = Category.get_cameos.find_by(name: slug)
+      exist_user.tallent_categories.create(category_id: category.id)
+    end
+  end
+
   def save_category(new_user, user)
     begin
       slugs = user.dig(:categories).map {|item| item.dig(:slug).squish}
       return if !slugs.present?
-      Category.where(name: slugs).each do |cat|
+      Category.get_cameos.where(name: slugs).each do |cat|
         cat.tallent_categories.create(user_id: new_user.id)
       end
     rescue Exception => e

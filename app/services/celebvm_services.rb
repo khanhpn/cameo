@@ -95,7 +95,7 @@ class CelebvmServices
   def save_to_database(args)
     return if !args[:username].present?
     begin
-      exist_user = User.find_by(username: args[:username])
+      exist_user = User.get_celebvms.find_by(username: args[:username])
       exist_user.present? ? update_user(exist_user, args)  : create_user(args)
     rescue Exception => e
       @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace}")
@@ -110,7 +110,20 @@ class CelebvmServices
       price: args[:price],
       type_web: "celebvm"
     })
+    update_category(exist_user, args)
   end
+
+  def update_category(exist_user, args)
+    slugs = args.dig(:categories).map(&:squish)
+    categories = exist_user.categories
+    items = categories.reject{|item| slugs.include?(item.name)}
+    items.map(&:delete) if items.present?
+    slugs.each do |slug|
+      result = categories.find_by(name: slug)
+      next if result.present?
+      category = Category.get_celebvms.find_by(name: slug)
+      exist_user.tallent_categories.create(category_id: category.id)
+    end
 
   def create_user(args)
     new_user = User.create({

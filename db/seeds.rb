@@ -14,16 +14,11 @@
 # end
 
 [
-  "actors", "broadway", "comedians", "comic-con",
-  "disney", "game-of-thrones", "harry-potter",
-  "lord-of-the-rings", "models", "mtv", "musicians",
-  "netflix", "reality", "star-wars", "twilight",
-  "video-games", "voice-actors", "animals",
-  "athletes", "drag-queens", "en-espanol",
-  "family", "fashion", "featured", "for-charity",
-  "influencers", "media", "new", "politics",
-  "realhousewives", "television", "wrestlers", "youtubers",
-  "pride", "fathers-day"
+  "actors", "broadway", "comedians", "comic-con", "disney", "game-of-thrones", "harry-potter",
+  "lord-of-the-rings", "models", "mtv", "musicians", "netflix", "reality", "star-wars", "twilight",
+  "video-games", "voice-actors", "animals", "athletes", "drag-queens", "en-espanol",
+  "family", "fashion", "featured", "for-charity", "influencers", "media", "new", "politics",
+  "realhousewives", "television", "wrestlers", "youtubers", "pride", "fathers-day"
 ].each do |category|
   cat = Category.find_by(name: category)
   if cat.present?

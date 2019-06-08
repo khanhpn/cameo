@@ -16,14 +16,16 @@ class HomesController < ApplicationController
 
   def execute_crawl
     if @status.current_status == "running"
-      redirect_to crawl_path, notice: "There is a crawl running, please waiting for a moment"
+      CameoServices.new.execute
+      redirect_to root_path, notice: "There is a crawl #{@status.name} running, please waiting for a moment"
     else
       if params["type"] == "cameo"
-        CameoJobJob.perform_later
+        # CameoJobJob.perform_later
+        CameoServices.new.execute
       else
         CelebvmJobJob.perform_later
       end
-      @status.update({current_status: "running"})
+      @status.update({current_status: "running", name: params["type"]})
 
       respond_to do |format|
         format.js
