@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <table class="table table-bordered">
+      <thead class="thead-inverse">
+        <tr>
+          <th>Id</th>
+          <th><%= select_tag :name, options_for_select([
+              {name: "DESC", id: "desc"}, {name: "ASC", id: "desc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "Name" %></th>
+          <th>
+            <%= select_tag :numOfRatings, options_for_select([
+              {name: "DESC", id: "desc"}, {name: "ASC", id: "desc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "numOfRatings" %>
+          </th>
+          <th>Image</th>
+          <th>Category</th>
+        </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= link_to user.id, user_detail_path(user.id) %></td>
+              <td><%= user.name %></td>
+              <td><%= user.numOfRatings %></td>
+              <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
+              <td><%= show_category(user.categories) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 custom-pagy">
+    <%== pagy_bootstrap_nav(@pagy) %>
+  </div>
+</div>

@@ -29,7 +29,7 @@ class CelebvmServices
   def get_links_detail
     Category.get_celebvms.each do |category|
       begin
-        doc = Nokogiri::HTML(open("#{@base_url}/#{category.name}"))
+        doc = Nokogiri::HTML(open("#{@base_url}/search?cate=#{category.name}"))
         raw_links = doc.xpath("//div[@class='img-card text-left']/a[@href]")
         next unless raw_links.present?
         parse_links_detail(raw_links)
@@ -114,7 +114,7 @@ class CelebvmServices
 
   def create_user(args)
     new_user = User.create({
-      name: args[:username],
+      name: args[:name],
       username: args[:username],
       imageUrl: args[:imageUrl],
       price: args[:price],

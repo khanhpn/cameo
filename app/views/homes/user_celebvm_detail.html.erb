@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th>name</th>
+          <td><%= @user.name %></td>
+        </tr>
+        <tr>
+          <th>username</th>
+          <td><%= @user.username %></td>
+        </tr>
+        <tr>
+          <th>Image</th>
+          <td><%= image_tag @user.imageUrl, class: "rounded-circle image" %></td>
+        </tr>
+        <tr>
+          <th>price</th>
+          <td><%= @user.price %></td>
+        </tr>
+        <tr>
+          <th>Category</th>
+          <td><%= show_category(@user.categories) %></td>
+        </tr>
+        <tr>
+          <th>Created at</th>
+          <td><%= @user.created_at %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

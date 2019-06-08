@@ -11,7 +11,7 @@
         <tbody>
           <% @categories.each do |category| %>
             <tr>
-              <td scope="row"><%= link_to category.id, category_detail_path(category) %></td>
+              <td scope="row"><%= link_to category.id, category_celebvm_detail_path(category) %></td>
               <td><%= category.name %></td>
               <td><%= category.users&.size %></td>
             </tr>

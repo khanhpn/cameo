@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post 'statistic_search', to: 'statistic_star#search', as: 'statistic_search'
   get 'celebvm', to: 'homes#celebvm', as: 'celebvm'
   get 'category_celebvm', to: 'homes#category_celebvm', as: 'category_celebvm'
-
+  get 'category_celebvm_detail/:id', to: 'homes#category_celebvm_detail', as: 'category_celebvm_detail'
+  get 'user_celebvm_detail/:id', to: 'homes#user_celebvm_detail', as: 'user_celebvm_detail'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

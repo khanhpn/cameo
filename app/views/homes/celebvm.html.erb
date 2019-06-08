@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-  <%= form_tag root_path, method: :get, id: "id_form_user" do %>
+  <%= form_tag celebvm_path, method: :get, id: "id_form_user" do %>
     <table class="table table-bordered">
       <thead class="thead-inverse">
         <tr>
@@ -22,10 +22,10 @@
             <tr>
               <td><%= user.name %></td>
               <td><%= "$ #{user.price}" %></td>
-              <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
+              <td><%= image_tag user.imageUrl || "", class: "rounded-circle image" %></td>
               <td><%= show_category(user.categories) %></td>
               <td><%= user.created_at.strftime("%d/%m/%Y") %></td>
-              <td><%= link_to "View", user_detail_path(user.id) %></td>
+              <td><%= link_to "View", user_celebvm_detail_path(user.id) %></td>
               <td><%= link_to "Link", "https://celebvm.com/p/#{user.username}", target: "blank" %></td>
             </tr>
           <% end %>
