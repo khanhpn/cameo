@@ -87,6 +87,7 @@ class CameoServices
       result = categories.find_by(name: slug)
       next if result.present?
       category = Category.get_cameos.find_by(name: slug)
+      category = Category.create({name: slug, type_web: "cameo"}) unless category.present?
       exist_user.tallent_categories.create(category_id: category.id)
     end
   end

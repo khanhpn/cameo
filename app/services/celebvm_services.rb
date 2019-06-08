@@ -122,6 +122,7 @@ class CelebvmServices
       result = categories.find_by(name: slug)
       next if result.present?
       category = Category.get_celebvms.find_by(name: slug)
+      category = Category.create({name: slug, type_web: "celebvm"}) unless category.present?
       exist_user.tallent_categories.create(category_id: category.id)
     end
 
