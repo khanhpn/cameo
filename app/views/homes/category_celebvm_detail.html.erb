@@ -4,12 +4,8 @@
       <thead class="thead-inverse">
         <tr>
           <th>Id</th>
-          <th><%= select_tag :name, options_for_select([
-              {name: "DESC", id: "desc"}, {name: "ASC", id: "desc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "Name" %></th>
-          <th>
-            <%= select_tag :numOfRatings, options_for_select([
-              {name: "DESC", id: "desc"}, {name: "ASC", id: "desc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "numOfRatings" %>
-          </th>
+          <th>Name</th>
+          <th>Price</th>
           <th>Image</th>
           <th>Category</th>
         </tr>
@@ -17,9 +13,9 @@
         <tbody>
           <% @users.each do |user| %>
             <tr>
-              <td><%= link_to user.id, user_detail_path(user.id) %></td>
+              <td><%= link_to user.id, user_celebvm_detail_path(user.id) %></td>
               <td><%= user.name %></td>
-              <td><%= user.numOfRatings %></td>
+              <td><%= "£ #{user.price}" %></td>
               <td><%= image_tag user.imageUrl, class: "rounded-circle image" %></td>
               <td><%= show_category(user.categories) %></td>
             </tr>

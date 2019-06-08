@@ -3,14 +3,9 @@
     <table class="table table-bordered">
       <thead class="thead-inverse">
         <tr>
-          <th>Id</th>
           <th>_id</th>
-          <th><%= select_tag :name, options_for_select([
-              {name: "DESC", id: "desc"}, {name: "ASC", id: "desc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "Name" %></th>
-          <th>
-            <%= select_tag :numOfRatings, options_for_select([
-              {name: "DESC", id: "desc"}, {name: "ASC", id: "desc"}].map { |obj| [obj[:name], obj[:id]] }), prompt: "numOfRatings" %>
-          </th>
+          <th>Name</th>
+          <th>numOfRatings</th>
           <th>Image</th>
           <th>Category</th>
         </tr>
@@ -18,7 +13,6 @@
         <tbody>
           <% @users.each do |user| %>
             <tr>
-              <td scope="row"><%= user.id %></td>
               <td><%= link_to user._id, user_detail_path(user._id) %></td>
               <td><%= user.name %></td>
               <td><%= user.numOfRatings %></td>
