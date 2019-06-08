@@ -5,7 +5,10 @@ class Category < ApplicationRecord
   scope :get_cameos, -> {where type_web: "cameo"}
   scope :get_celebvms, -> {where type_web: "celebvm"}
 
-  def self.search(start_time, end_time)
-    where("users.created_at >= ? and users.created_at <= ?", start_time, end_time).references(:users)
+  def self.search(start_time, end_time, type_web)
+    results = get_cameos if type_web == "cameo"
+    results = get_celebvms if type_web == "celebvm"
+
+    results.where("users.created_at >= ? and users.created_at <= ?", start_time, end_time).references(:users)
   end
 end
