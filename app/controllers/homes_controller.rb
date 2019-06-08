@@ -3,19 +3,28 @@ class HomesController < ApplicationController
   before_action :check_crawl, only: [:crawl, :execute_crawl]
 
   def index
-    @pagy, @users = pagy(User.sort_user(params))
+    @pagy, @users = pagy(User.sort_user(params).get_cameos)
+  end
+
+  def celebvm
+    @pagy, @users = pagy(User.sort_user(params).get_celebvms)
   end
 
   def crawl
+    @type = "cameo"
     @status = @status.present? ? @status : StatusCrawl.create({current_status: "new"})
   end
 
   def execute_crawl
     if @status.current_status == "running"
-      redirect_to crawl_path, notice: "There is a crawl running, please waiting for a moment"
+      redirect_to root_path, notice: "There is a crawl #{@status.name} running, please waiting for a moment"
     else
-      CameoJobJob.perform_later
-      @status.update({current_status: "running"})
+      if params["type"] == "cameo"
+        CameoJobJob.perform_later
+      else
+        CelebvmJobJob.perform_later
+      end
+      @status.update({current_status: "running", name: params["type"]})
 
       respond_to do |format|
         format.js
@@ -28,14 +37,27 @@ class HomesController < ApplicationController
     @pagy, @users = pagy(@category.users)
   end
 
+  def category_celebvm_detail
+    @category = Category.find_by(id: params[:id])
+    @pagy, @users = pagy(@category.users)
+  end
+
   def user_detail; end
+
+  def user_celebvm_detail
+    @user = User.find_by(id: params["id"])
+  end
 
   def back
     redirect_back(fallback_location: root_path)
   end
 
   def category
-    @pagy, @categories = pagy(Category.all.includes(:users))
+    @pagy, @categories = pagy(Category.all.includes(:users).get_cameos)
+  end
+
+  def category_celebvm
+    @pagy, @categories = pagy(Category.all.includes(:users).get_celebvms)
   end
 
   private

@@ -2,7 +2,8 @@ class StatisticStarController < ApplicationController
   before_action :set_params
 
   def index
-    @pagy, @categories = pagy(Category.all.includes(:users).search(@start_time, @end_time))
+    @type = params["type"] ? params["type"] : "cameo"
+    @pagy, @categories = pagy(Category.all.includes(:users).search(@start_time, @end_time, @type))
   end
 
   private

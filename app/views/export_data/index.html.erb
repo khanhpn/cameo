@@ -9,6 +9,12 @@
     <p class="lead">
       <%= form_with url: export_xlsx_path, class: "text-center", method: :get, local: true do |form| %>
         <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Select type:</label>
+          <div class="col-sm-10">
+            <%= form.select :type, options_for_select([ "cameo", "celebvm" ], params["type"]), {prompt: "Choose type"}, {class: "form-control width-select"} %>
+          </div>
+        </div>
+        <div class="form-group row">
           <label class="col-sm-2 col-form-label">File Name:</label>
           <div class="col-sm-10">
             <%= form.text_field :name_file, class: "form-control" %>

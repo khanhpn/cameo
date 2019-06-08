@@ -5,6 +5,10 @@
         <label><h4>Choose datetime range</h4></label>
         <%= form.text_field :date_range, id: "id_date_range", "data-datetime": datetime_range(@start_time, @end_time), class: "form-control text-center", placeholder: "Choose datetime range" %>
       </div>
+      <div class="form-group">
+        <label><h4>Choose web type</h4></label>
+        <%= form.select :type, options_for_select([ "cameo", "celebvm" ], @type), {prompt: "Choose type"}, {class: "form-control"} %>
+      </div>
       <%= form.submit "Search", class: "btn btn-primary", data: { disable_with: false } %>
     <% end %>
   </div>

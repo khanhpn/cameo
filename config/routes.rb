@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  root 'homes#index'
-  get 'crawl', to: 'homes#crawl', as: 'crawl'
+  root 'homes#crawl'
+  get 'cameo', to: 'homes#index', as: 'cameo'
   get 'category', to: 'homes#category', as: 'category'
   get 'user_detail/:id', to: 'homes#user_detail', as: 'user_detail'
   get 'back', to: 'homes#back', as: 'back'
@@ -11,5 +11,9 @@ Rails.application.routes.draw do
   get 'export_data', to: 'export_data#index', as: 'export_data'
   get 'statistic', to: 'statistic_star#index', as: 'statistic'
   post 'statistic_search', to: 'statistic_star#search', as: 'statistic_search'
+  get 'celebvm', to: 'homes#celebvm', as: 'celebvm'
+  get 'category_celebvm', to: 'homes#category_celebvm', as: 'category_celebvm'
+  get 'category_celebvm_detail/:id', to: 'homes#category_celebvm_detail', as: 'category_celebvm_detail'
+  get 'user_celebvm_detail/:id', to: 'homes#user_celebvm_detail', as: 'user_celebvm_detail'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

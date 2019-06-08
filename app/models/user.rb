@@ -2,6 +2,9 @@ class User < ApplicationRecord
   has_many :tallent_categories
   has_many :categories, through: :tallent_categories
 
+  scope :get_cameos, -> {where type_web: "cameo"}
+  scope :get_celebvms, -> {where type_web: "celebvm"}
+
   def self.sort_user(condition)
     users = self.includes(:categories)
     users = users.where("name like ? or username like ?", "%#{condition['keyword']}%", "%#{condition['keyword']}%") if condition['keyword'].present?
