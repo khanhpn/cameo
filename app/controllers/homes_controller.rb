@@ -3,7 +3,6 @@ class HomesController < ApplicationController
   before_action :check_crawl, only: [:crawl, :execute_crawl]
 
   def index
-    binding.pry
     @pagy, @users = pagy(User.sort_user(params).get_cameos)
   end
 
