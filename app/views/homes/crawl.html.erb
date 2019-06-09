@@ -9,7 +9,6 @@
         <%= form.submit "Start crawl", class: "btn btn-primary btn-lg", data: { disable_with: false } %>
       <% end %>
     </p>
-    <div class="text-center">Crawl last time: <%= @status.updated_at %></div>
-    <div id="id_status"><%= render partial: "homes/status", locals: {status: @status} %></div>
+    <div id="id_status"><%= render partial: "homes/status", locals: {statuses: @statuses} %></div>
   </div>
 </div>

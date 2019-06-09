@@ -9,12 +9,8 @@ class CameoJobJob < ApplicationJob
 
   private
   def notification_to_user
-    status = StatusCrawl.last
-    if status
-      status.update({current_status: "finish"})
-    else
-      StatusCrawl.create({current_status: "finish"})
-    end
+    status = StatusCrawl.find_by(name: "cameo")
+    status.update({current_status: "finish"})
   end
 
 end

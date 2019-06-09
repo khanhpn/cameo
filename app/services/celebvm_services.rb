@@ -116,16 +116,21 @@ class CelebvmServices
   end
 
   def update_category(exist_user, args)
-    slugs = args.dig(:categories).map(&:squish)
-    categories = exist_user.categories
-    items = categories.reject{|item| slugs.include?(item.name)}
-    items.map(&:delete) if items.present?
-    slugs.each do |slug|
-      result = categories.find_by(name: slug)
-      next if result.present?
-      category = Category.get_celebvms.find_by(name: slug)
-      category = Category.create({name: slug, type_web: "celebvm"}) unless category.present?
-      exist_user.tallent_categories.create(category_id: category.id)
+    return unless args.dig(:categories).present?
+    begin
+      slugs = args.dig(:categories).map(&:squish)
+      categories = exist_user.categories
+      items = categories.reject{|item| slugs.include?(item.name)}
+      items.map(&:delete) if items.present?
+      slugs.each do |slug|
+        result = categories.find_by(name: slug)
+        next if result.present?
+        category = Category.get_celebvms.find_by(name: slug)
+        category = Category.create({name: slug, type_web: "celebvm"}) unless category.present?
+        exist_user.tallent_categories.create(category_id: category.id)
+      end
+    rescue Exception => e
+      @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace}")
     end
   end
 

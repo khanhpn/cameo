@@ -11,24 +11,29 @@ class HomesController < ApplicationController
   end
 
   def crawl
-    @type = "cameo"
-    @status = @status.present? ? @status : StatusCrawl.create({current_status: "new"})
+    if !@statuses.present?
+      StatusCrawl.create(current_status: "new", name: "cameo")
+      StatusCrawl.create(current_status: "new", name: "celebvm")
+      @statuses = StatusCrawl.all
+    end
   end
 
   def execute_crawl
-    if @status.current_status == "running"
-      redirect_to root_path, notice: "There is a crawl #{@status.name} running, please waiting for a moment"
-    else
-      if params["type"] == "cameo"
-        CameoJobJob.perform_later
-      else
-        CelebvmJobJob.perform_later
-      end
-      @status.update({current_status: "running", name: params["type"]})
+    status = @statuses.find_by(name: params["type"])
+    if status.present? && status.current_status == "running"
+      return redirect_to root_path, notice: "There is a crawl #{@status.name} running, please waiting for a moment"
+    end
 
-      respond_to do |format|
-        format.js
-      end
+    if params["type"] == "cameo"
+      status.update({current_status: "running", name: params["type"]})
+      CameoJobJob.perform_later
+    else
+      status.update({current_status: "running", name: params["type"]})
+      CelebvmJobJob.perform_later
+    end
+
+    respond_to do |format|
+      format.js
     end
   end
 
@@ -66,6 +71,6 @@ class HomesController < ApplicationController
   end
 
   def check_crawl
-    @status = StatusCrawl.last
+    @statuses = StatusCrawl.all
   end
 end
