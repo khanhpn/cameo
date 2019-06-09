@@ -12,6 +12,7 @@
 # ["categories", "users", "tallent_categories"].each do |table_name|
 #   ActiveRecord::Base.connection.execute("TRUNCATE #{table_name} RESTART IDENTITY")
 # end
+StatusCrawl.delete_all
 
 [
   "actors", "broadway", "comedians", "comic-con", "disney", "game-of-thrones", "harry-potter",

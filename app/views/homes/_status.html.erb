@@ -1,7 +1,12 @@
-<% if @status.current_status == "new" %>
-  <h4 class="text-center">Status: NEW</h4>
-<% elsif @status.current_status == "running" %>
-  <h4 class="text-center color-red">Status: <%= @status&.name&.capitalize %> RUNNING</h4>
-<% else %>
-  <h4 class="text-center color-green">Status: <%= @status&.name&.capitalize %> FINISH</h4>
+<% statuses.each do |status| %>
+  <div class="text-center"><%= status&.name&.capitalize %> crawl last time: <%= status.current_status != "new" ? status.updated_at : "no crawl" %></div>
+  <div>
+    <% if status.current_status == "new" %>
+      <h4 class="text-center">Status: <%= status&.name&.capitalize %> IS NEW</h4>
+    <% elsif status.current_status == "running" %>
+      <h4 class="text-center color-red">Status: <%= status&.name&.capitalize %> IS RUNNING</h4>
+    <% else %>
+      <h4 class="text-center color-green">Status: <%= status&.name&.capitalize %> FINISHED</h4>
+    <% end %>
+  </div>
 <% end %>

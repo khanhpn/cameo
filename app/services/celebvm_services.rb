@@ -83,7 +83,9 @@ class CelebvmServices
   def get_price(doc)
     raw_price = doc.xpath("//button[@class='btn btn-danger pr-sm-5']")
     return unless raw_price.present?
-    raw_price&.first&.text&.split(" ")&.last&.gsub(/\£|\$/, "")&.to_i
+    raw_price = raw_price&.first&.text&.split(" ")&.last
+    return raw_price&.gsub(/\£|\$/, "")&.to_i if raw_price.include?("$")
+    return raw_price&.gsub(/\£|\$/, "")&.to_i * 1.27 if raw_price.include?("£")
   end
 
   def get_categories_name(doc)
@@ -114,16 +116,21 @@ class CelebvmServices
   end
 
   def update_category(exist_user, args)
-    slugs = args.dig(:categories).map(&:squish)
-    categories = exist_user.categories
-    items = categories.reject{|item| slugs.include?(item.name)}
-    items.map(&:delete) if items.present?
-    slugs.each do |slug|
-      result = categories.find_by(name: slug)
-      next if result.present?
-      category = Category.get_celebvms.find_by(name: slug)
-      category = Category.create({name: slug, type_web: "celebvm"}) unless category.present?
-      exist_user.tallent_categories.create(category_id: category.id)
+    return unless args.dig(:categories).present?
+    begin
+      slugs = args.dig(:categories).map(&:squish)
+      categories = exist_user.categories
+      items = categories.reject{|item| slugs.include?(item.name)}
+      items.map(&:delete) if items.present?
+      slugs.each do |slug|
+        result = categories.find_by(name: slug)
+        next if result.present?
+        category = Category.get_celebvms.find_by(name: slug)
+        category = Category.create({name: slug, type_web: "celebvm"}) unless category.present?
+        exist_user.tallent_categories.create(category_id: category.id)
+      end
+    rescue Exception => e
+      @logger.debug("#{Time.zone.now} #{e.inspect} #{e.backtrace}")
     end
   end
 
