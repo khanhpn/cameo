@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_05_134915) do
+ActiveRecord::Schema.define(version: 2019_06_08_082730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_134915) do
     t.integer "number_user"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type_web"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -43,6 +44,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_134915) do
     t.string "current_status", default: "new"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
   end
 
   create_table "tallent_categories", force: :cascade do |t|
@@ -73,6 +75,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_134915) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "temporarilyUnavailable"
+    t.string "type_web"
     t.index ["_id"], name: "index_users_on__id"
   end
 

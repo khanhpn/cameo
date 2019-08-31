@@ -2,6 +2,8 @@ class HomesController < ApplicationController
   before_action :set_user, only: [:user_detail]
   before_action :check_crawl, only: [:crawl, :execute_crawl]
 
+  layout 'crawler'
+
   def index
     @pagy, @users = pagy(User.sort_user(params).get_cameos)
   end
@@ -11,11 +13,11 @@ class HomesController < ApplicationController
   end
 
   def crawl
-    if !@statuses.present?
-      StatusCrawl.create(current_status: "new", name: "cameo")
-      StatusCrawl.create(current_status: "new", name: "celebvm")
-      @statuses = StatusCrawl.all
-    end
+    return if @statuses.present?
+
+    StatusCrawl.create(current_status: 'new', name: 'cameo')
+    StatusCrawl.create(current_status: 'new', name: 'celebvm')
+    @statuses = StatusCrawl.all
   end
 
   def execute_crawl

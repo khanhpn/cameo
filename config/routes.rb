@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'homes#crawl'
+  root 'landing#landing'
   get 'cameo', to: 'homes#index', as: 'cameo'
   get 'category', to: 'homes#category', as: 'category'
   get 'user_detail/:id', to: 'homes#user_detail', as: 'user_detail'
